@@ -10,7 +10,7 @@ public class DBManager {
 
     // 静态成员，支持单态模式
     private static DBManager per = null;
-    private Connection conn = null;
+    public Connection conn = null;
     private Statement stmt = null;
 
     // 单态模式-懒汉模式
