@@ -80,6 +80,7 @@ public class returnTeacherList extends HttpServlet {
 			printWriter.write("");
 		}
 	    in.close();
+	    db.closeDB();
 	    printWriter.close();
 	    bufferedReader.close();
 	}

@@ -57,6 +57,7 @@ public class removeInfo extends HttpServlet {
 	    in.close();
 	    printWriter.close();
 	    bufferedReader.close();
+	    dbManager.closeDB();
 	}
 
 	/**

@@ -86,6 +86,7 @@ public class RequestNotificationList extends HttpServlet {
 			jsonBack = GsonUnit.listToJson(infoList);
 			System.out.println(jsonBack);
 			printWriter.write(jsonBack);
+			dbManager.closeDB();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("³ö´í");

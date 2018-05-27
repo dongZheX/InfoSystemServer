@@ -70,6 +70,7 @@ public class getMyClassInfo extends HttpServlet {
 			e.printStackTrace();
 			printWriter.write("0");
 		}
+		db.closeDB();
 	}
 
 	/**

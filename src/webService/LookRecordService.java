@@ -72,6 +72,7 @@ public class LookRecordService extends HttpServlet {
 		in.close();
 	    printWriter.close();
 	    bufferedReader.close();
+	    db.closeDB();
 	}
 
 	/**

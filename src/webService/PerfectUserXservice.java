@@ -89,6 +89,7 @@ public class PerfectUserXservice extends HttpServlet {
 		else{
 			printWriter.write("fault");
 		}
+		dbManager.closeDB();
 	}
 
 	/**

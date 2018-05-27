@@ -65,7 +65,7 @@ public class updateInfo extends HttpServlet {
 			e.printStackTrace();
 			printWriter.write("0");
 		}
-	    
+	    dbManager.closeDB();
 	}
 
 	/**

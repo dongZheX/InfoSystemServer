@@ -84,6 +84,7 @@ public class ResetPassword extends HttpServlet {
 	     in.close();
 		 printWriter.close();
 		 bufferedReader.close();
+		 dbManager.closeDB();
 	     
 	}
 

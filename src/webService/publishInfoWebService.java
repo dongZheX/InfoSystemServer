@@ -74,6 +74,7 @@ public class publishInfoWebService extends HttpServlet {
 			printWriter.write("0");
 		}
 	    in.close();
+	    dbManager.closeDB();
 	    printWriter.close();
 	    bufferedReader.close();
 	    
