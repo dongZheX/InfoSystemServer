@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.mysql.jdbc.DatabaseMetaData;
 
-import DataBase.AES;
 import DataBase.DBManager;
+import DataBase.AES;
 import jdk.internal.util.xml.impl.Input;
 import json.test.GsonUnit;
 import security.MD5;
@@ -58,15 +58,19 @@ public class LoginServlet extends HttpServlet {
 		InputStream in =  request.getInputStream();
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
 		String line,jsonDataAS,jsonBack;
-		User user1,user2;//user1来用户，user2去用户
+		User user1=null,user2;//user1来用户，user2去用户
 		//取得客户端数据
 		StringBuilder builder = new StringBuilder();
 		while((line=bufferedReader.readLine())!=null) {
 			builder.append(line);
 		}
+		
 		jsonDataAS = builder.toString();
+		System.out.printf(jsonDataAS );
+		if(jsonDataAS!=null)
 		user1 = GsonUnit.jsonToJavaBean(jsonDataAS, User.class);
-		  //数据库数据请求                            	
+		  //数据库数据请求          
+		System.out.printf(user1.getUsername());
 		String username = user1.getUsername();
 		DBManager dbManager = DBManager.createInstance();
 	    dbManager.initDB();//数据库初始化
@@ -81,7 +85,9 @@ public class LoginServlet extends HttpServlet {
 	  
 			try {
 				if(resultSet.next()) {
-				String pass = MD5.getMD5(resultSet.getString("pass"));
+				
+				String pass = resultSet.getString("pass");
+				System.out.println(resultSet.getString("pass"));
 				String Class_id = resultSet.getString("Class_id");
 				int firstLogin = resultSet.getInt("firstLogin");
 				int User_Power = resultSet.getInt("User_power");

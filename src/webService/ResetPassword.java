@@ -45,21 +45,25 @@ public class ResetPassword extends HttpServlet {
 		BufferedReader bufferedReader;
 		InputStream in;
 		String data;
-		String param[] = new String[3];
+		String param[];
 		response.setContentType("text/html;charset:utf-8");
 		//读取数据
 		in = request.getInputStream();
-		bufferedReader = new BufferedReader(new InputStreamReader(in));
+		bufferedReader = new BufferedReader(new InputStreamReader(in,"GBK"));
 		data = bufferedReader.readLine();
+		System.out.println(data);
 		param = data.split("/");
 		String username = param[0];
+		System.out.println(param[0]);
 		String old_pass = param[1];
+		System.out.println(param[1]);
 		String new_pass = param[2];
+		System.out.println(param[2]);
 		int result = 0;
 		//数据库部分存储过程
 		 CallableStatement proc=null;
 		 printWriter = response.getWriter();
-	     String sql="{call update_pass_user{?,?,?,?}";
+	     String sql="{call update_pass_user(?,?,?,?)}";
 	     DBManager dbManager =DBManager.createInstance();
 	     dbManager.initDB();
 	     dbManager.connectDB("Super", "1097300052dz");
@@ -69,12 +73,17 @@ public class ResetPassword extends HttpServlet {
 			proc.setString(1, username);
 			proc.setString(2, old_pass);
 			proc.setString(3, new_pass);
-			proc.setInt(4, 1);
+			proc.setInt(4, result);
+			proc.executeQuery();	
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			printWriter.write(result);
 		}
+	     printWriter.write(""+1);
+	     in.close();
+		 printWriter.close();
+		 bufferedReader.close();
 	     
 	}
 

@@ -40,21 +40,22 @@ public class updateInfo extends HttpServlet {
 	    BufferedReader bufferedReader;
 	    PrintWriter printWriter;
 	    InputStream in = request.getInputStream();
-	    bufferedReader = new BufferedReader(new InputStreamReader(in));
+	    bufferedReader = new BufferedReader(new InputStreamReader(in,"GBK"));
 	    String line,data;
 	    StringBuilder stringBuilder = new StringBuilder();
 	    while((line=bufferedReader.readLine())!=null) {
 	        stringBuilder.append(line);
 	    }
 	    data = stringBuilder.toString();
+	    System.out.println(data);
 	    String datas[] = data.split("/");
-	    String class_id = datas[0],info_id = datas[1],title = datas[1],content = datas[2];
+	    String class_id = datas[0],info_id = datas[1],title = datas[2],content = datas[3];
 	    //数据库连接
 	    DBManager dbManager = DBManager.createInstance();
 	    dbManager.initDB();
 	    dbManager.connectDB("Super", "1097300052dz");
 	    String sql ="update info set Info_title='"+title+"',Info_content='"+content+"' where Info_id"
-	    		+ "='"+info_id+"'";
+	    		+ "='"+info_id+"';";
 	    printWriter = response.getWriter();
 	    try {
 	    	dbManager.executeUpdate(sql);

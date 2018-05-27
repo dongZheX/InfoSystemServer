@@ -44,7 +44,7 @@ public class removeInfo extends HttpServlet {
 	    DBManager dbManager = DBManager.createInstance();
 	    dbManager.initDB();
 	    dbManager.connectDB("Super", "1097300052dz");
-	    String sql ="delete from info where Info_id = '"+info_id+"'";
+	    String sql ="delete from info where Info_id = '"+info_id+"';";
 	    printWriter = response.getWriter();
 	    try {
 	    	dbManager.executeUpdate(sql);
@@ -54,6 +54,9 @@ public class removeInfo extends HttpServlet {
 			e.printStackTrace();
 			printWriter.write("0");
 		}
+	    in.close();
+	    printWriter.close();
+	    bufferedReader.close();
 	}
 
 	/**

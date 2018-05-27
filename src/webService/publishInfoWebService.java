@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.jasper.tagplugins.jstl.core.Out;
+
 import DataBase.DBManager;
 
 /**
@@ -41,15 +43,17 @@ public class publishInfoWebService extends HttpServlet {
 	    BufferedReader bufferedReader;
 	    PrintWriter printWriter;
 	    InputStream in = request.getInputStream();
-	    bufferedReader = new BufferedReader(new InputStreamReader(in));
+	    bufferedReader = new BufferedReader(new InputStreamReader(in,"GBK"));
 	    String line,data;
 	    StringBuilder stringBuilder = new StringBuilder();
 	    while((line=bufferedReader.readLine())!=null) {
 	        stringBuilder.append(line);
 	    }
 	    data = stringBuilder.toString();
+	    System.out.println(data);
 	    String datas[] = data.split("/");
-	    String class_id = datas[0],author = datas[1],title = datas[1],content = datas[2];
+	    String class_id = datas[0],author = datas[1],title = datas[2],content = datas[3];
+	    System.out.println(datas[0]+datas[1]+datas[2]+datas[3]);
 	    //数据库连接
 	    DBManager dbManager = DBManager.createInstance();
 	    dbManager.initDB();
@@ -69,7 +73,9 @@ public class publishInfoWebService extends HttpServlet {
 			e.printStackTrace();
 			printWriter.write("0");
 		}
-	    
+	    in.close();
+	    printWriter.close();
+	    bufferedReader.close();
 	    
 	}
 

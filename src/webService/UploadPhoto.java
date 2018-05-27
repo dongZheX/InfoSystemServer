@@ -54,7 +54,7 @@ public class UploadPhoto extends HttpServlet {
 			String jsonData = "";
 			String line = "";
 			int length;			
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream()));		
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream(),"utf-8"));		
 			while((line=bufferedReader.readLine())!=null) {
 				jsonData+=line;
 			}
@@ -70,10 +70,14 @@ public class UploadPhoto extends HttpServlet {
 			File file = new File(filepath);
 			if(!file.exists())
 				file.createNewFile();
+			else {
+				file.delete();
+				file.createNewFile();
+			}
 		
 			FileOutputStream fileOutputStream = new FileOutputStream(file,false);
 			fileOutputStream.write(Base64.decode(image.getData()));
-			String sql = "update UserX set User_image = '"+toDataBase+"' where Username = '"+image.getUsername()+"';";
+			String sql = "update userx set User_image = '"+toDataBase+"' where Username = '"+image.getUsername()+"';";
 			DBManager dbManager = DBManager.createInstance();
 			dbManager.connectDB("Super", "1097300052dz");
 			dbManager.executeUpdate(sql);

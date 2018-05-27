@@ -59,7 +59,8 @@ public class ReturnContantList extends HttpServlet {
 		String jsonBack;
 		InputStream in;
 		OutputStream out;
-		response.setContentType("text/html;charset:utf-8");
+		response.setContentType("text/html;charset:GBK");
+		response.setCharacterEncoding("gbk");
 		//读取客户端数据
 		in = request.getInputStream();
 		bufferedReader = new BufferedReader(new InputStreamReader(in));
@@ -76,6 +77,7 @@ public class ReturnContantList extends HttpServlet {
 			
 			while(resultSet.next()) {
 				UserX userX;
+				if(resultSet.getString("User_name")!=null&&!resultSet.getString("User_name").equals("")) {
 				String Username = resultSet.getString("Username");
 				String User_name = resultSet.getString("User_name");
 				String Class_id = class_id;
@@ -87,14 +89,19 @@ public class ReturnContantList extends HttpServlet {
 				String User_birth = resultSet.getString("User_birth");
 				userX = new UserX(Username,User_name,Class_id,User_sex,User_phone,User_address,User_QQ,User_image,User_birth);
 				infoList.add(userX);
+				}
 			}
-			jsonBack = GsonUnit.listToJson(infoList);		
+			jsonBack = GsonUnit.listToJson(infoList);	
+			System.out.println(jsonBack);
 			bufferedWriter.write(jsonBack);
+			bufferedWriter.flush();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			bufferedWriter.write("");
+			System.out.println("出错");
 		}finally {
+			
 			out.close();
 			bufferedReader.close();
 			bufferedWriter.close();

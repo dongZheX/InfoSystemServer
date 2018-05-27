@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 import DataBase.DBManager;
 import json.test.GsonUnit;
 import things.Info;
@@ -54,11 +56,13 @@ public class PerfectUserXservice extends HttpServlet {
 		while((line=bufferedReader.readLine())!=null) {
 			stringBuilder.append(line);
 		}
+		
 		jsonFrom = stringBuilder.toString();
+		System.out.println(jsonFrom);
 		UserX userX = GsonUnit.jsonToJavaBean(jsonFrom, UserX.class);
-		String Username =userX.getUsername();
+		String Username = userX.getUsername();
 		String User_name = userX.getUser_name();
-		String User_sex = userX.getUser_sex();
+		String User_sex = userX.getUser_sex().equals("man")?"男":"女";
 		String User_phone = userX.getUser_phone();
 		String User_address = userX.getUser_address();
 		String User_QQ = userX.getUser_QQ();
@@ -67,7 +71,7 @@ public class PerfectUserXservice extends HttpServlet {
 		DBManager dbManager = DBManager.createInstance();
 		dbManager.initDB();
 		dbManager.connectDB("Super", "1097300052dz");
-		String sql = "update userx set Username = '"+User_name+"',"
+		String sql = "update userx set User_name = '"+User_name+"',"
 				+ "User_sex = '"+User_sex+"',"
 				+ "User_phone = '"+User_phone+"',"
 				+ "User_QQ = '"+User_QQ+"',"
@@ -75,6 +79,8 @@ public class PerfectUserXservice extends HttpServlet {
 				+ "User_birth = '"+User_birth+"'"
 				+"where Username='"+Username+"';";
 		int result = dbManager.executeUpdate(sql);
+		String sql2 ="update user set firstLogin = 1 where Username ='"+Username+"'";
+		dbManager.executeUpdate(sql2);
 		printWriter = response.getWriter();
 		//返回客户端
 		if(result>0) {

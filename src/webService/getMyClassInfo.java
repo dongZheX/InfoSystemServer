@@ -46,18 +46,23 @@ public class getMyClassInfo extends HttpServlet {
 		in = request.getInputStream();
 		bufferedReader = new BufferedReader(new InputStreamReader(in));
 		String class_id = bufferedReader.readLine();
+		System.out.println(class_id);
+		class_id = "2016758";
 		//数据库连接
 		DBManager db = DBManager.createInstance();
 		db.initDB();
 		db.connectDB("Super", "1097300052dz");
-		String sql = "select from class where Class_id = '"+class_id+"';";
+		String sql = "select * from class where Class_id = '"+class_id+"';";
 		ResultSet resultSet = db.executeQuery(sql);
 		printWriter = response.getWriter();
 		//数据读取
+		String result = "";
 		try {
-			String class_name = resultSet.getString("Class_name");
-			int class_count = resultSet.getInt("Class_count");
-			String result = class_name+"/"+class_count;
+			while(resultSet.next()) {
+				String class_name = resultSet.getString("Class_name");
+				int class_count = resultSet.getInt("Class_count");
+				result = class_name+"/"+class_count;
+			}
 			printWriter.write(result);
 			
 		} catch (SQLException e) {

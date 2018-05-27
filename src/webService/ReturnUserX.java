@@ -52,6 +52,7 @@ public class ReturnUserX extends HttpServlet {
 		InputStream in;
 		OutputStream out;
 		response.setContentType("text/html;charset:utf-8");
+		response.setCharacterEncoding("gbk");
 		//读取客户端数据
 		in = request.getInputStream();
 		bufferedReader = new BufferedReader(new InputStreamReader(in));
@@ -65,9 +66,9 @@ public class ReturnUserX extends HttpServlet {
 		out = response.getOutputStream();
 		bufferedWriter = new BufferedWriter(new OutputStreamWriter(out));
 		try {
-			
-			
-				UserX userX;
+			UserX userX = null;
+				while(resultSet.next()) {
+				
 				String Username = username;
 				String User_name = resultSet.getString("User_name");
 				String Class_id = resultSet.getString("Class_id");
@@ -78,10 +79,12 @@ public class ReturnUserX extends HttpServlet {
 				String User_image = resultSet.getString("User_image");
 				String User_birth = resultSet.getString("User_birth");
 				userX = new UserX(Username,User_name,Class_id,User_sex,User_phone,User_address,User_QQ,User_image,User_birth);
+				}
 			
-			
-			jsonBack = GsonUnit.javabeanToJson(userX);		
+			jsonBack = GsonUnit.javabeanToJson(userX);	
+			System.out.println(jsonBack);
 			bufferedWriter.write(jsonBack);
+			bufferedWriter.flush();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -6,7 +6,7 @@ package things;
  */
 
 public class UserX {
-    private String Username;
+    private String Username="";
     private String User_name;
     private String Class_id;
     private String User_sex;

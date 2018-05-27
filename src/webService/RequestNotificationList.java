@@ -16,10 +16,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import DataBase.DBManager;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
-import DataBase.DBManager;
 import json.test.GsonUnit;
 
 /**
@@ -42,6 +44,9 @@ public class RequestNotificationList extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("I am In");
+		response.setContentType("text/html;charset:GB2312");
+		response.setCharacterEncoding("gbk");
 		PrintWriter printWriter;
 		BufferedReader bufferedReader;
 		List<Info> infoList = new ArrayList<Info>();
@@ -50,16 +55,18 @@ public class RequestNotificationList extends HttpServlet {
 		String jsonBack;
 		InputStream in;
 		OutputStream out;
-		response.setContentType("text/html;charset:utf-8");
+		
 		//读取客户端数据
 		in = request.getInputStream();
 		bufferedReader = new BufferedReader(new InputStreamReader(in));
 		class_id = bufferedReader.readLine();
+		class_id = "2016758";
 		//数据库请求数据
 		DBManager dbManager = DBManager.createInstance();
 		dbManager.initDB();
 		dbManager.connectDB("Super", "1097300052dz");
-		String sql = "select * from info where Class_id='"+class_id+"';";
+		System.out.println(class_id);
+		String sql = "select * from info where Class_id='"+class_id+"' order BY Time DESC;";
 		ResultSet resultSet = dbManager.executeQuery(sql);
 		printWriter = response.getWriter();
 		try {
@@ -77,11 +84,11 @@ public class RequestNotificationList extends HttpServlet {
 				infoList.add(info);
 			}
 			jsonBack = GsonUnit.listToJson(infoList);
-			
+			System.out.println(jsonBack);
 			printWriter.write(jsonBack);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			
+			System.out.println("出错");
 			printWriter.write("");
 			e.printStackTrace();
 		}
