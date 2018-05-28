@@ -74,7 +74,7 @@ public class ReturnUserX extends HttpServlet {
 				String Class_id = resultSet.getString("Class_id");
 				String User_sex = resultSet.getString("User_sex");
 				String User_phone = resultSet.getString("User_phone");
-				String User_address = resultSet.getString("User_phone");
+				String User_address = resultSet.getString("User_address");
 				String User_QQ = resultSet.getString("User_QQ");
 				String User_image = resultSet.getString("User_image");
 				String User_birth = resultSet.getString("User_birth");
